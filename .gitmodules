@@ -1,0 +1,6 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/martirspe/chatbot-widget-frontend.git
+[submodule "backend"]
+	path = backend
+	url = https://github.com/martirspe/chatbot-widget-backend.git
