@@ -8,6 +8,30 @@ Incluye integración con servicios de IA (OpenAI, Qdrant), persistencia en Postg
 
 ---
 
+## Repositorios principales
+
+- [chatbot-widget-frontend](https://github.com/martirspe/chatbot-widget-frontend)
+- [chatbot-widget-backend](https://github.com/martirspe/chatbot-widget-backend)
+
+## Submódulos
+
+Este repositorio incluye los submódulos:
+- `frontend/` → [chatbot-widget-frontend](https://github.com/martirspe/chatbot-widget-frontend)
+- `backend/` → [chatbot-widget-backend](https://github.com/martirspe/chatbot-widget-backend)
+
+### Clonar con submódulos
+
+```bash
+git clone --recurse-submodules https://github.com/martirspe/chatbot-widget-suite.git
+```
+
+### Actualizar submódulos
+
+```bash
+git submodule update --remote
+```
+---
+
 ## Tecnologías utilizadas
 
 - **Angular 20** (Frontend)
