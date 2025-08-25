@@ -1,0 +1,72 @@
+services:
+  chatbot-widget-backend:
+    build: ./backend
+    container_name: chatbot-widget-backend
+    env_file: .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      chatbot-widget-postgres:
+        condition: service_healthy
+      chatbot-widget-redis:
+        condition: service_started
+      chatbot-widget-qdrant:
+        condition: service_started
+    networks:
+      - chatbot-widget-network
+
+  chatbot-widget-frontend:
+    build: ./frontend
+    container_name: chatbot-widget-frontend
+    env_file: .env
+    ports:
+      - "4200:80"
+    depends_on:
+      - chatbot-widget-backend
+    networks:
+      - chatbot-widget-network
+
+  chatbot-widget-postgres:
+    image: postgres:16
+    container_name: chatbot-widget-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: chatbot_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - chatbot-widget-network
+
+  chatbot-widget-redis:
+    image: redis:7
+    container_name: chatbot-widget-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - chatbot-widget-network
+
+  chatbot-widget-qdrant:
+    image: qdrant/qdrant:latest
+    container_name: chatbot-widget-qdrant
+    ports:
+      - "6333:6333"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - chatbot-widget-network
+
+volumes:
+  postgres_data:
+  qdrant_data:
+
+networks:
+  chatbot-widget-network:
+    driver: bridge
