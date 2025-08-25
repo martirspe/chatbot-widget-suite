@@ -105,12 +105,28 @@ ChatbotIA/
 
 ---
 
-## Despliegue con Docker Compose
+## Despliegue con Docker Compose y configuración de variables de entorno
 
 Levanta todo el stack con:
 ```bash
 docker compose up -d --build
 ```
+
+Si ejecutas el proyecto con Docker, asegúrate de que las URLs de conexión para servicios como PostgreSQL, Redis y Qdrant utilicen el **nombre del servicio definido en Docker Compose** en lugar de `localhost` o direcciones IP.
+
+Por ejemplo, en tu archivo `.env`:
+
+- Para PostgreSQL:  
+  `DATABASE_URL=postgresql://<usuario>:<contraseña>@<nombre_del_servicio_postgres>:<puerto>/<base_de_datos>`
+
+- Para Qdrant:  
+  `QDRANT_URL=http://<nombre_del_servicio_qdrant>:<puerto>`
+
+- Para Redis:  
+  `REDIS_URL=redis://<nombre_del_servicio_redis>:<puerto>`
+
+Esto permite que los contenedores se comuniquen correctamente dentro de la red de Docker.  
+**No uses `localhost` ni IPs locales para estos servicios cuando trabajes con Docker.**
 
 ---
 
